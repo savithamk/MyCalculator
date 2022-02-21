@@ -55,11 +55,47 @@ class ViewController: UIViewController {
         operationType = "/"
     }
     
-    //This function provides result by evaluating corresponding operation
-    @IBAction func equals(_ sender: Any) {
-        calculatedResult = formatResult(value: evaluateExpression())
+    //This function reads the percentage operator and computes the percentage of a number
+    @IBAction func percentage(_ sender: Any) {
+        operationType = "%"
+        calculatedResult = formatResult(value: evaluatePercentage())
         displayedNumber.text = calculatedResult
         secondNumberAfterResult = ""
+        
+    }
+    
+    //This function reads the square root operator and computes the square root of a number
+    @IBAction func squareRoot(_ sender: Any) {
+        operationType = "√"
+        calculatedResult = formatResult(value: evaluateSquareRoot())
+        displayedNumber.text = calculatedResult
+        secondNumberAfterResult = ""
+    }
+    
+    //This function reads the sine operator and computes the sine of a number
+    @IBAction func sine(_ sender: Any) {
+        operationType = "sin"
+        calculatedResult = formatResult(value: evaluateSine())
+        displayedNumber.text = calculatedResult
+        secondNumberAfterResult = ""
+        
+    }
+    
+    //This function reads the tangent operator and computes the tangent of a number
+    @IBAction func tangent(_ sender: Any) {
+        operationType = "tan"
+        calculatedResult = formatResult(value: evaluateTangent())
+        displayedNumber.text = calculatedResult
+        secondNumberAfterResult = ""
+    }
+    
+    //This function provides result by evaluating corresponding operation
+    @IBAction func equals(_ sender: Any) {
+        if (firstNumber != "" || calculatedResult != "") && (secondNumber != "" || secondNumberAfterResult != ""){
+            calculatedResult = formatResult(value: evaluateExpression())
+            displayedNumber.text = calculatedResult
+            secondNumberAfterResult = ""
+        }
     }
     
     //This is the collection object of all the buttons
@@ -95,7 +131,6 @@ class ViewController: UIViewController {
         case "/" : return evaluateDivision()
         default : return 0;
         }
-      
     }
     
     //This function performs addition
@@ -140,6 +175,71 @@ class ViewController: UIViewController {
             else {
                 return Double(calculatedResult)! / Double(secondNumberAfterResult)!
             }
+    }
+    
+    //This function calculates percentage
+    func evaluatePercentage() -> Double {
+            if !hasResult {
+                hasResult = true
+                return (Double(firstNumber)!) / 100
+            }
+            else {
+                if secondNumberAfterResult != "" {
+                    return Double(secondNumberAfterResult)! / 100
+                } else {
+                    return Double(calculatedResult)! / 100
+                }
+            }
+    }
+    
+    //This function calculates square root of a number
+    func evaluateSquareRoot() -> Double {
+            if !hasResult {
+                hasResult = true
+                return sqrt(Double(firstNumber)!)
+            }
+            else {
+                if secondNumberAfterResult != "" {
+                    return sqrt(Double(secondNumberAfterResult)!)
+                } else {
+                    return sqrt(Double(calculatedResult)!)
+                }
+            }
+    }
+    
+    //This function calculates sine of a number
+    func evaluateSine() -> Double {
+            if !hasResult {
+                hasResult = true
+                return getTrigonometricResult(function: sin, value: Double(firstNumber)!)
+            }
+            else {
+                if secondNumberAfterResult != "" {
+                    return getTrigonometricResult(function: sin, value: Double(secondNumberAfterResult)!)
+                }else{
+                    return getTrigonometricResult(function: sin, value: Double(calculatedResult)!)
+                }
+            }
+    }
+    
+    //This function performs tangent of a number
+    func evaluateTangent() -> Double {
+            if !hasResult {
+                hasResult = true
+                return getTrigonometricResult(function: tan, value: Double(firstNumber)!)
+            }
+        else {
+            if secondNumberAfterResult != "" {
+                return getTrigonometricResult(function: tan, value: Double(secondNumberAfterResult)!)
+            }else{
+                return getTrigonometricResult(function: tan, value: Double(calculatedResult)!)
+            }
+        }
+    }
+    
+    //Function to get trigonometric operation result
+    func getTrigonometricResult(function: (Double) -> Double, value: Double) -> Double {
+        return function(value * Double.pi / 180)
     }
     
     //This function formats the result to required decimal places
