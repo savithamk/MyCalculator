@@ -9,9 +9,14 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet var calculatorButtons: [UIButton]!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        for button in calculatorButtons {
+            button.layer.cornerRadius =  button.bounds.size.height / 3
+        }
     }
 
 
